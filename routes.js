@@ -28,6 +28,7 @@ async function handler(req, res)  {
     }      
     else {
         console.log("Not from github")
+        res.setStatus(404);
         res.setHeader('content-type',"text/html")
         res.end("<head><title>not allowed!</title></head><center><img src='https://sayingimages.com/wp-content/uploads/im-sorry-who-are-you-meme.png' /></center>")
     }
