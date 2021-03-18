@@ -14,7 +14,6 @@ var httpsServer = https.createServer(credentials, app);
 
 app.use(bodyParser.json({extended:true}))
 app.use(router)
-app.use(function(req,res){
-    res.sendStatus(404);})
+app.use(function(req,res){res.sendStatus(404);})
 httpServer.listen(8080, (p, h) => console.log(`HTTP  Server listening `));
 httpsServer.listen(8443, (p, h) => console.log(`HTTPS Server listening`));

@@ -1,6 +1,5 @@
 const { default: axios } = require('axios');
 const {Router}=require('express');
-const fs=require('fs')
 const app=Router()
 const {GithubAuthenticator}=require("./authenticators")
 const authetincateGithub=GithubAuthenticator('X-Hub-Signature-256' , '!@#$%^&*()');
@@ -20,6 +19,7 @@ async function handler(req, res)  {
               
           }
           response.data.pipe(res);
+          console.log("responded to github")
     }      
     else {
         console.log("Not from github")
