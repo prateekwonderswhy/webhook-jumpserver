@@ -11,7 +11,8 @@ async function handler(req, res)  {
             headers: {...req.headers,host:'10.8.0.1:8080'},
             data: JSON.stringify(req.body),
             url:"http://10.8.0.1:8080/github-webhook/",
-            responseType:'stream'
+            responseType:'stream',
+            timeout:60000
           }
           try{
         var response=await axios(options);
