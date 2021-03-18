@@ -12,7 +12,7 @@ async function handler(req, res)  {
             data: JSON.stringify(req.body),
             url:"http://10.8.0.1:8080/github-webhook/",
             responseType:'stream',
-            timeout:60000
+            timeout:10000
           }
           try{
         var response=await axios(options);
