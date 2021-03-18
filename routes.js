@@ -21,14 +21,14 @@ async function handler(req, res)  {
         var response=await axios(options);
           }catch(e){
               console.log("error during connecting to jenkins, maybe timeout. is it reachable?");
-              return res.setStatus(505);
+              return res.status(505);
           }
           response.data.pipe(res);
           console.log("responded to github")
     }      
     else {
         console.log("Not from github")
-        res.setStatus(404);
+        res.status(404);
         res.setHeader('content-type',"text/html")
         res.end("<head><title>not allowed!</title></head><center><img src='https://sayingimages.com/wp-content/uploads/im-sorry-who-are-you-meme.png' /></center>")
     }
