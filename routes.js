@@ -17,7 +17,8 @@ async function handler(req, res)  {
           try{
         var response=await axios(options);
           }catch(e){
-              
+              console.log("error during connecting to jenkins, maybe timeout. is it reachable?");
+              return res.setStatus(505);
           }
           response.data.pipe(res);
           console.log("responded to github")
