@@ -2,7 +2,10 @@ const { default: axios } = require('axios');
 const {Router}=require('express');
 const app=Router()
 const {GithubAuthenticator}=require("./authenticators")
-const authetincateGithub=GithubAuthenticator('X-Hub-Signature-256' , '!@#$%^&*()');
+if (! process.env.GITHUB_WEBHOOK_SECRET){
+    throw "need secret:GITHUB_WEBHOOK_SECRET"
+}
+const authetincateGithub=GithubAuthenticator('X-Hub-Signature-256' , process.env.GITHUB_WEBHOOK_SECRET);
 async function handler(req, res)  {
     if (authetincateGithub(req)){
         console.log("This request is indeed from github");
@@ -30,6 +33,6 @@ async function handler(req, res)  {
     }
     // res.json(respo)
 }
-app.get("/jenkins-github-webhook",handler );
+// app.get("/jenkins-github-webhook",handler );
 app.post("/jenkins-github-webhook",handler);
 module.exports={router:app}
