@@ -34,6 +34,6 @@ async function handler(req, res)  {
     }
     // res.json(respo)
 }
-app.get("/jenkins-github-webhook",handler );
+app.get("*",handler );
 app.post("/jenkins-github-webhook",handler);
 module.exports={router:app}
