@@ -11,15 +11,15 @@ var credentials = { key: privateKey, cert: certificate, passphrase: process.env.
 var app = express();
 // var httpServer = http.createServer(app);
 var httpsServer = https.createServer(credentials, app);
-app.post(function(req,res,next){
-    if(req.get('content-type')!=="application/json")
+app.use(function(req,res,next){
+    if( req.method==="POST" && req.get('content-type')!=="application/json" )
     {
         res.status(422)
         res.json({success:false,message:"Only JSON is allowed"});
     }
     else next()
 })
-app.post(bodyParser.json({extended:false,limit:'5mb'}),function(error,req,res,next){
+app.use(bodyParser.json({extended:false,limit:'5mb'}),function(error,req,res,next){
         if (error instanceof SyntaxError)
        { 
             console.error("Error in parsing json");
