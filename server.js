@@ -11,7 +11,7 @@ var credentials = { key: privateKey, cert: certificate, passphrase: process.env.
 var app = express();
 // var httpServer = http.createServer(app);
 var httpsServer = https.createServer(credentials, app);
-app.use(function(req,res,next){
+app.post(function(req,res,next){
     if(req.get('content-type')!=="application/json")
     {
         res.status(422)
@@ -19,7 +19,7 @@ app.use(function(req,res,next){
     }
     else next()
 })
-app.use(bodyParser.json({extended:false,limit:'5mb'}),function(error,req,res,next){
+app.post(bodyParser.json({extended:false,limit:'5mb'}),function(error,req,res,next){
         if (error instanceof SyntaxError)
        { 
             console.error("Error in parsing json");
