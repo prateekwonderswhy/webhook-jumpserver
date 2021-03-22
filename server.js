@@ -11,8 +11,23 @@ var credentials = { key: privateKey, cert: certificate, passphrase: process.env.
 var app = express();
 // var httpServer = http.createServer(app);
 var httpsServer = https.createServer(credentials, app);
+app.use(function(req,res,next){
+    if(req.get('content-type')!=="application/json")
+    {
+        res.status(422)
+        res.json({success:false,message:"Only JSON is allowed"});
+    }
+    else next()
+})
+app.use(bodyParser.json({extended:false,limit:'5mb'}),function(error,req,res,next){
+        if (error instanceof SyntaxError)
+       { 
+            console.error("Error in parsing json");
+            res.status(422).json({success:false,message:'corrupt json'})
+        }
+        next()
+})
 
-app.use(bodyParser.json({extended:true}))
 app.use(router)
 app.use(function(req,res){res.sendStatus(404);})
 // httpServer.listen(8080, (p, h) => console.log(`HTTP  Server listening `));
