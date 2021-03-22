@@ -6,7 +6,13 @@ if (! process.env.GITHUB_WEBHOOK_SECRET){
     throw "need secret:GITHUB_WEBHOOK_SECRET"
 }
 const authetincateGithub=GithubAuthenticator('X-Hub-Signature-256' , process.env.GITHUB_WEBHOOK_SECRET);
-async function handler(req, res)  {
+async function memer(req,res,next)
+{
+        res.status(401);
+        res.setHeader('content-type',"text/html")
+        res.end("<head><title>not allowed!</title></head><center><img src='https://sayingimages.com/wp-content/uploads/im-sorry-who-are-you-meme.png' /></center>")
+}
+async function handler(req, res,next)  {
     if (authetincateGithub(req)){
         console.log("This request is indeed from github");
         const options = {
@@ -28,12 +34,9 @@ async function handler(req, res)  {
     }      
     else {
         console.log("Not from github")
-        res.status(401);
-        res.setHeader('content-type',"text/html")
-        res.end("<head><title>not allowed!</title></head><center><img src='https://sayingimages.com/wp-content/uploads/im-sorry-who-are-you-meme.png' /></center>")
-    }
-    // res.json(respo)
+        return memer(req,res,next)
+         }
 }
-app.get("*",handler );
+app.get("*",memer );
 app.post("/jenkins-github-webhook",handler);
 module.exports={router:app}
